@@ -1,6 +1,7 @@
 import { VStack, Heading, Stack, Card, Text, Image } from "@chakra-ui/react";
 import axios from "axios";
 import React, { useEffect } from "react";
+import izr_server from "../../configs/configfile";
 
 interface event {
   date: string;
@@ -20,9 +21,8 @@ export default function EventsBoard() {
   const [noEvent, setNoEvents] = React.useState(true);
 
   useEffect(() => {
-    axios.get<resp>("https://izr-cloud.online/getEvents/all").then((res) => {
-      res.data.events[0].flyer ===
-      "https://izr-cloud.online/getEvents/No_Events.jpg"
+    axios.get<resp>(izr_server.url + "getEvents/all").then((res) => {
+      res.data.events[0].flyer === izr_server.url + "getEvents/No_Events.jpg"
         ? setNoEvents(true)
         : setNoEvents(false);
       setEvents(res.data.events);

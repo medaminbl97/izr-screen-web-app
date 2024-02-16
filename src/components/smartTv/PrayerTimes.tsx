@@ -2,6 +2,7 @@ import { VStack, Text, HStack, Stack } from "@chakra-ui/react";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import PrayerTime from "./PrayerTime";
+import izr_server from "../../configs/configfile";
 
 interface Props {
   nextPrayer: string;
@@ -84,7 +85,7 @@ function PrayerTimes({ nextPrayer, countdown }: Props) {
   useEffect(() => {
     const id = setInterval(() => {
       axios
-        .get<iqama_resp>("https://izr-cloud.online/getPrayers/next")
+        .get<iqama_resp>(izr_server.url + "/getPrayers/next")
         .then((response) => {
           setIqamahs(response.data.iqamah);
           // console.log(response.data.iqamah);
@@ -95,7 +96,7 @@ function PrayerTimes({ nextPrayer, countdown }: Props) {
 
   useEffect(() => {
     const id = setInterval(() => {
-      axios.get<prayers>("http://192.168.178.37/getPrayers").then((res) => {
+      axios.get<prayers>(izr_server.url + "/getPrayers").then((res) => {
         setPrayerTimes(res.data);
         console.log("PrayerTimes updated ");
       });

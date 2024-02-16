@@ -14,6 +14,7 @@ import IZRDateInformation from "./IZRDateInformation";
 import { FaMosque } from "react-icons/fa";
 import IZRLogoTextTrans from "./IZRLogoTextTrans";
 import TimerHadithTrans from "./TimerHadithTrans";
+import izr_server from "../../configs/configfile";
 
 interface nextPData {
   dtm: number;
@@ -60,39 +61,35 @@ function SmartTvScreen({
   let t = 20;
   const checkForNextPrayer = () => {
     // console.log(currentPrayer);
-    axios
-      .get<nextPData>("https://izr-cloud.online/getPrayers/next")
-      .then((res) => {
-        // console.log("jetzt : ", res.data);
-        setCurrentPrayer(res.data);
-        if (res.data["dtm"] <= 29 && res.data["dtm"] >= 0) {
-          setCounts({
-            dahanC: { min: res.data.dtm, sec: res.data.dts },
-            iqamaC: (res.data?.iqamah as any)[res.data?.prayer[0]!],
-          });
-          // test
-          // setCounts({
-          //   dahanC: { min: 0, sec: t },
-          //   iqamaC: 20,
-          // });
-          setCounting(true);
-          currentPrayer?.prayer[0] != "Jumaa" && onAds(true);
-          if (res.data["dtm"] <= 2 && res.data["dtm"] >= 0) {
-            onAds(false);
-          }
-          onCount();
+    axios.get<nextPData>(izr_server.url + "/getPrayers/next").then((res) => {
+      // console.log("jetzt : ", res.data);
+      setCurrentPrayer(res.data);
+      if (res.data["dtm"] <= 29 && res.data["dtm"] >= 0) {
+        setCounts({
+          dahanC: { min: res.data.dtm, sec: res.data.dts },
+          iqamaC: (res.data?.iqamah as any)[res.data?.prayer[0]!],
+        });
+        // test
+        // setCounts({
+        //   dahanC: { min: 0, sec: t },
+        //   iqamaC: 20,
+        // });
+        setCounting(true);
+        currentPrayer?.prayer[0] != "Jumaa" && onAds(true);
+        if (res.data["dtm"] <= 2 && res.data["dtm"] >= 0) {
+          onAds(false);
         }
-      });
+        onCount();
+      }
+    });
   };
   const checkForNextPrayerOnce = () => {
     // console.log("called onece");
-    axios
-      .get<nextPData>("https://izr-cloud.online/getPrayers/next")
-      .then((res) => {
-        setNextPrayer(res.data);
-        setCurrentPrayer(res.data);
-        // console.log(currentPrayer);
-      });
+    axios.get<nextPData>(izr_server.url + "/getPrayers/next").then((res) => {
+      setNextPrayer(res.data);
+      setCurrentPrayer(res.data);
+      // console.log(currentPrayer);
+    });
   };
 
   useEffect(() => {

@@ -19,6 +19,7 @@ import IZR from "./IZR";
 import current_event from "../images/Camp2023T.png";
 import app_flyer from "../images/APPFlyer.png";
 import axios from "axios";
+import izr_server from "../../configs/configfile";
 
 interface nextPData {
   dtm: number;
@@ -52,16 +53,14 @@ function TvManager() {
   const [flyers, setFlyers] = useState<event[]>();
 
   const checkForNextPrayerOnce = () => {
-    axios
-      .get<nextPData>("https://izr-cloud.online/getPrayers/next")
-      .then((res) => {
-        setCurrentPrayer(res.data);
-        // console.log(res.data);
-      });
+    axios.get<nextPData>(izr_server.url + "/getPrayers/next").then((res) => {
+      setCurrentPrayer(res.data);
+      // console.log(res.data);
+    });
   };
 
   const updateFlyers = () => {
-    axios.get<resp>("https://izr-cloud.online/getEvents/all").then((res) => {
+    axios.get<resp>(izr_server.url + "/getEvents/all").then((res) => {
       flyers &&
         (res.data.events[0].flyer !== flyers[0].flyer ||
           res.data.events.length !== flyers.length) &&

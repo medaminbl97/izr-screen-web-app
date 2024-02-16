@@ -1,0 +1,30 @@
+.animatedBg {
+  /* background: linear-gradient(-45deg, rgb(67, 48, 232),#002661, #4f0877, black); */
+  background: linear-gradient(-45deg, rgb(9, 78, 22),#002661, #4f0877, black);
+  /* background: linear-gradient(
+    -45deg,
+    #e6e6fa,
+    #d8bfd8,
+    #b721ff,
+    #662d91,
+    #1d1160
+  ); */
+  background-size: 500% 500%;
+  animation: gradient 15s ease infinite;
+  color: whitesmoke;
+}
+
+@keyframes gradient {
+  0% {
+    background-position: 0% 50%;
+  }
+  25% {
+    background-position: 100% 75%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
